@@ -43,8 +43,8 @@ const __ = require('underscore')
 const TWITR = new TWITTER({
   consumer_key: process.env.TW_API_KEY,
   consumer_secret: process.env.TW_API_SECRET,
-  access_token_key: '',
-  access_token_secret: ''
+  access_token_key: process.env.TW_ACCESS_KEY,
+  access_token_secret: process.env.TW_ACCESS_SECRET
 });
 
 const _SET_NEW_LOW=(nid)=>{
@@ -74,7 +74,7 @@ const _GET_LOW=()=>{
 
   var Q = {"sent":{$eq:null}}
 
-  const uri = "mongodb+srv://app:7GT8Cdl*fq4Z@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  const uri = "mongodb+srv://app:"+process.env.MONGOPSSWD+"@cl00-uacod.mongodb.net/parking?retryWrites=true";
   MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
    const col = client.db("parking").collection("atl_parcel_parking");
    // perform actions on the collection object
@@ -194,7 +194,7 @@ if(typeof low == 'undefined'){console.log("no low id found")}else{console.log("l
 let map = await _GETMAP();
 console.log("random map is ",map)
 let bio = await _GETBIO(low);
-console.log("bio is ",map)
+console.log("bio is ",bio)
 // console.log("bio",bio);
 
 let uri = "http://lots.milleria.org/#/"+map+"/-84.86732482910156,33.608900856100234,-83.83323669433595,33.897777013859475/"+low
