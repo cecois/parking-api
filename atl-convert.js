@@ -2,12 +2,30 @@ const __ = require('underscore')
 ,FS = require('fs')
 ;
 
+const adjectives = 
+["flat"
+,"level"
+,"horizontal"
+,"smooth"
+,"even"
+,"uniform"
+,"weedy"
+,"intopographic"
+,"shallow"
+,"tranquil"
+,"recumbent"
+,"toneless"
+,"unvaried"
+,"characterless"
+,"lifeless"
+];
+
 
 const getSupply = async () =>{
 
 	return new Promise((resolve,reject)=>{
 
-		FS.readFile('./dev/atl-tax-parcel-parking.geojson',(err,res)=>{
+		FS.readFile('./dev/atl-tax-parcel-parking.geojson',async (err,res)=>{
 
 					if(err){reject(err)} else {
 
@@ -24,8 +42,9 @@ const setSupply = async (G) =>{
 
 	return new Promise((resolve,reject)=>{
 
-__.each(G,(g)=>{
-	console.log("g",g);
+__.each(G.features,(g)=>{
+	let adj=adjectives[Math.floor(Math.random()*adjectives.length)]
+	console.log("rando",adj)
 })
 
 resolve()
