@@ -63,3 +63,4 @@ typings/
 # ccm stuff
 atl-tax-parcel-parking.geojson
 .DS_Store
+pantheon.json
