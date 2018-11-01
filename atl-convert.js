@@ -166,10 +166,14 @@ resolve(bios)
 
 
 const main = async () =>{
+
 const raw = await getSupply();
 const pantheon = await getPantheon();
 const supply = await setSupply(raw,pantheon);
-console.log(supply)
+FS.writeFile('/tmp/lots-atl.geojson',JSON.stringify(supply),(e,d)=>{
+	if(e){reject(e)}
+		console.log("written to /tmp/lots.geojson")
+})
 }
 
 main();
