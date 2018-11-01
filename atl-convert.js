@@ -64,11 +64,13 @@ const getSupply = async () =>{
 })//promise
 }//getSupply
 
-const setSupply = async (G,pantheon) =>{
+const setSupply = async (OG,pantheon) =>{
 
 	return new Promise((resolve,reject)=>{
 
-let bios =__.map(G.features,(g)=>{
+		let G = OG
+
+let features =__.map(OG.features,(g)=>{
 
 let towns=__.filter(pantheon,(f)=>{
 	return (f.countryCode3=='USA' || f.countryCode3=='CAN'|| f.countryCode3=='MEX')
@@ -154,12 +156,13 @@ let celeb=pantheon[Math.floor(Math.random()*pantheon.length)]
 	delete g.properties.GLOBALID;
 	delete g.properties.ORDNAME;
 	delete g.properties.ORDLINK;
-	
+
 g.properties.bio = "I'm lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+"."
 return g;
 })//map
 
-resolve(bios)
+G.features=features;
+resolve(G)
 
 })//promise
 }//extant
