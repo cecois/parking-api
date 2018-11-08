@@ -229,8 +229,12 @@ let celeb=pantheon[Math.floor(Math.random()*pantheon.length)]
 g.properties.bio = "I'm #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+". Oh also: "+o.statement
 g.properties.bio_short = "I'm #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+". Interested? "
 // return g;
-})//map
-// G.features=features
+})//each
+
+g.properties.bio = "I'm lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+"."
+return g;
+
+G.features=features;
 resolve(G)
 
 })//promise
