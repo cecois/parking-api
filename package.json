@@ -1,0 +1,20 @@
+{
+  "name": "parking-api",
+  "version": "1.0.0",
+  "description": "a NodeJS utility",
+  "author": "cecois <cecmcgee@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
