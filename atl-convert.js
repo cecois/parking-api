@@ -2,6 +2,32 @@ const __ = require('underscore')
 ,FS = require('fs')
 ;
 
+const intros = [
+"Hi. I am"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Hi. I'm"
+,"Heyo. I'm"
+,"I am"
+,"I am"
+,"I am"
+,"I am"
+,"I'm"
+,"I'm"
+,"I'm"
+,"I'm"
+,"Hello. I'm"
+,"Hello. I'm"
+,"Hello. I'm"
+,"Hello. I'm"
+,"Hello. I'm"
+,"Howdy. I'm"
+]
+
 const adjectives =
 ["flat"
 ,"level"
@@ -30,7 +56,7 @@ const adverbs =
 ];
 
 const opinons_o_facts =
-["I never vote."
+["I never vote :-/"
 ,"the scent of leather makes me puke."
 ,"I own a medical-grade stethoscope."
 ,"I find drug addicts to be tiresome."
@@ -145,6 +171,8 @@ let towns=__.filter(pantheon,(f)=>{
 })
 let town=towns[Math.floor(Math.random()*towns.length)]
 let celeb=pantheon[Math.floor(Math.random()*pantheon.length)]
+let adverb=adverbs[Math.floor(Math.random()*adverbs.length)]
+let intro=intros[Math.floor(Math.random()*intros.length)]
 
 	let o=
 	{
@@ -152,6 +180,8 @@ let celeb=pantheon[Math.floor(Math.random()*pantheon.length)]
 		,statement:opinons_o_facts[Math.floor(Math.random()*opinons_o_facts.length)]
 		,hometown:(town.countryCode3=='USA' && town.birthstate!=='')?town.birthcity+", "+town.birthstate:town.birthcity+", "+town.countryCode3
 		,celebrity:celeb.occupation.toLowerCase()+" "+celeb.name
+		,adverb:adverb
+		,intro:intro
 	}
 	delete g.properties.ORDSTATUS;
 	delete g.properties.LOWPARCELI;
@@ -226,15 +256,16 @@ let celeb=pantheon[Math.floor(Math.random()*pantheon.length)]
 	delete g.properties.ORDNAME;
 	delete g.properties.ORDLINK;
 	
-g.properties.bio = "I'm #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+". Oh also: "+o.statement
-g.properties.bio_short = "I'm #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+". Interested? "
-// return g;
+g.properties.bio = o.intro+" #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm "+o.adverb+" "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+". Oh also: "+o.statement
+// let tag = (g.properties.bio.length>)
+g.properties.bio_short = o.intro+" #atl parking lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm "+o.adverb+" "+o.adjective+"; og frm "+o.hometown
+g.properties.sent=null;
 })//each
 
-g.properties.bio = "I'm lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+"."
-return g;
+// g.properties.bio = "I'm lot "+g.properties.OBJECTID+" at "+g.properties.SITEADDRES.toLowerCase()+". I'm vry "+o.adjective+"; originally from "+o.hometown+"; and the celebrity whose car I would most like to park is "+o.celebrity+"."
+// return g;
 
-G.features=features;
+// G.features=features;
 resolve(G)
 
 })//promise
@@ -249,6 +280,10 @@ const supply = await setSupply(raw,pantheon);
 FS.writeFile('/tmp/lots-atl.geojson',JSON.stringify(supply),(e,d)=>{
 	if(e){reject(e)}
 		console.log("written to /tmp/lots-atl.geojson")
+})
+FS.writeFile('/tmp/lots-atl.json',JSON.stringify(__.map(supply.features,(f)=>{return {id:f.properties.OBJECTID,sent:null}})),(e,d)=>{
+	if(e){reject(e)}
+		console.log("written to /tmp/lots-atl.json")
 })
 }
 

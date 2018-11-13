@@ -6,6 +6,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.9",
+    "screenshot-stream": "^4.2.0",
+    "tinyurl": "^1.1.2",
+    "tweet-tweet": "^1.0.4",
     "underscore": "^1.9.1"
   },
   "devDependencies": {},
