@@ -5,7 +5,7 @@ const __ = require('underscore')
 ,TWEET = require('tweet-tweet')
 ,TINY = require('tinyurl')
 ,PUPPETEER = require('puppeteer')
-,CLOUDINARY = require('cloudinary')
+// ,CLOUDINARY = require('cloudinary')
 ,FS = require('fs')
 ,maps = [
 "dark_all",
@@ -37,57 +37,57 @@ const __ = require('underscore')
 ;
 
 const _SET_NEW_LOW=(nid)=>{
-			return new Promise(function(resolve, reject) {
+ return new Promise(function(resolve, reject) {
 
-var Q = { "id":nid }
+  var Q = { "id":nid }
 
-const uri = "mongodb+srv://app:7GT8Cdl*fq4Z@cl00-uacod.mongodb.net/parking?retryWrites=true";
-MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
+  const uri = "mongodb+srv://app:7GT8Cdl*fq4Z@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
    const col = client.db("parking").collection("atl_parcel_parking");
    // perform actions on the collection object
    col.updateOne(
-   Q,
-   { $set: { "sent": new Date() } }
-)
-client.close();
-resolve(nid);
+     Q,
+     { $set: { "sent": new Date() } }
+     )
+   client.close();
+   resolve(nid);
 });//connect
 
 
 	});//Promise
-	}
+}
 
 const _GET_LOW=()=>{
-			return new Promise(function(resolve, reject) {
+ return new Promise(function(resolve, reject) {
 
-var Q = {"sent":{$eq:null}}
+  var Q = {"sent":{$eq:null}}
 
-const uri = "mongodb+srv://app:7GT8Cdl*fq4Z@cl00-uacod.mongodb.net/parking?retryWrites=true";
-MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
+  const uri = "mongodb+srv://app:7GT8Cdl*fq4Z@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
    const col = client.db("parking").collection("atl_parcel_parking");
    // perform actions on the collection object
    col.find(Q).sort({id:+1}).limit(1).toArray(function(err, docs) {
-				if(err){reject(err)}
-   client.close();
-    resolve(docs);
+    if(err){reject(err)}
+     client.close();
+   resolve(docs);
   });//toarray
 
 });//connect
 
 	});//Promise
-	}
+}
 
 const _GET = async(U,P)=>{
 
-return new Promise((resolve,reject)=>{
-	AXIOS.get(U,P)
-	  .then(function (response) {
-	    resolve(response);
-	  })
-	  .catch(function (error) {
-	    console.log(error);
-			reject(error);
-	  });
+  return new Promise((resolve,reject)=>{
+   AXIOS.get(U,P)
+   .then(function (response) {
+     resolve(response);
+   })
+   .catch(function (error) {
+     console.log(error);
+     reject(error);
+   });
 })//promise
 }//_GET
 
@@ -96,23 +96,23 @@ const _TINIFY = async (U) => {
 	return new Promise((resolve,reject)=>{
 
     TINY.shorten(U, (res)=>{
-    resolve(res);
-});
+      resolve(res);
+    });
 
 })//promise
 };//tinify
 
 const _CAPIFY = async(U,F)=>{
 
-console.log("screencapping...",U)
-let fi = F
+  console.log("screencapping...",U)
+  let fi = F
 
-const browser = await PUPPETEER.launch({slowMo: 500});
+  const browser = await PUPPETEER.launch({slowMo: 500});
   const page = await browser.newPage();
   page.setViewport({width:1024,height:768})
   await page.goto(U);
   await page.screenshot({path: fi});
- 
+
   await browser.close();
 
 }//capify
@@ -140,7 +140,7 @@ const _TWEET = async(U,IMG)=>{
 const _GETMAP = async()=>{
 	return new Promise((resolve,reject)=>{
 
-resolve(maps[Math.floor(Math.random()*maps.length)])
+    resolve(maps[Math.floor(Math.random()*maps.length)])
 
 	})//promise
 }//tweet
