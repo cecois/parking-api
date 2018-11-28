@@ -5,7 +5,9 @@ const __ = require('underscore')
 ,TWEET = require('tweet-tweet')
 ,TINY = require('tinyurl')
 ,PUPPETEER = require('puppeteer')
+,CONFIG = require("./Config.json")
 // ,CLOUDINARY = require('cloudinary')
+,CLOUD = require("cloudinary-direct")
 ,FS = require('fs')
 ,maps = [
 "dark_all",
@@ -35,6 +37,12 @@ const __ = require('underscore')
 "mapbox_wheatpaste"
 ]
 ;
+
+CLOUD.config({
+  cloudName: CONFIG.cloudinary.name,
+  api_key: CONFIG.cloudinary.api_key,
+  api_secret: CONFIG.cloudinary.api_secret
+})
 
 const _SET_NEW_LOW=(nid)=>{
  return new Promise(function(resolve, reject) {
@@ -120,10 +128,11 @@ const _CAPIFY = async(U,F)=>{
 const _UPCAP = async(I)=>{
 	return new Promise((resolve,reject)=>{
 
+    CLOUD.imageUploader(I, (resp)=> {
+resolve(resp.secure_url)
+    });
 // CLOUDINARY.v2.uploader.upload(I,{upload_preset:'unsigned',tags:['parking','atl']},
     // function(error, result) {
-    	if(error){reject(error);}
-    	resolve()
     // });
 
 })//promise
