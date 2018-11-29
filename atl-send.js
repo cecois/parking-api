@@ -7,7 +7,7 @@ const __ = require('underscore')
 ,PUPPETEER = require('puppeteer')
 ,CONFIG = require("./Config.json")
 // ,CLOUDINARY = require('cloudinary')
-,CLOUD = require("cloudinary-direct")
+// ,CLOUD = require("cloudinary-direct")
 ,FS = require('fs')
 ,maps = [
 "dark_all",
@@ -37,12 +37,6 @@ const __ = require('underscore')
 "mapbox_wheatpaste"
 ]
 ;
-
-CLOUD.config({
-  cloudName: CONFIG.cloudinary.name,
-  api_key: CONFIG.cloudinary.api_key,
-  api_secret: CONFIG.cloudinary.api_secret
-})
 
 const _SET_NEW_LOW=(nid)=>{
  return new Promise(function(resolve, reject) {
@@ -126,19 +120,6 @@ const _CAPIFY = async(U,F)=>{
 
 }//capify
 
-const _UPCAP = async(I)=>{
-	return new Promise((resolve,reject)=>{
-
-    CLOUD.imageUploader(I, (resp)=> {
-resolve(resp.secure_url)
-    });
-// CLOUDINARY.v2.uploader.upload(I,{upload_preset:'unsigned',tags:['parking','atl']},
-    // function(error, result) {
-    // });
-
-})//promise
-}//upcap
-
 const _TWEET = async(U,IMG)=>{
 	return new Promise((resolve,reject)=>{
 
@@ -189,7 +170,7 @@ console.log("capfile",capfile)
 // let finalize = await _GET('https://cecmcgee.carto.com/api/v2/sql?',{params:{q:"update atl_tax_parcel_parking set sent="}})
 
 // let set_new_low=await _SET_NEW_LOW(low);
-// 	console.log("updated sent status",set_new_low);
+	// console.log("updated sent status",set_new_low);
 
 }
 
