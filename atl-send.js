@@ -111,9 +111,10 @@ const _CAPIFY = async(U,F)=>{
   const page = await browser.newPage();
   page.setViewport({width:1024,height:768})
   await page.goto(U);
-  await page.screenshot({path: fi});
+  let sc = await page.screenshot({path: fi});
 
   await browser.close();
+  return sc;
 
 }//capify
 
@@ -162,10 +163,11 @@ let capfile = '/tmp/'+low+".png"
 
 // optionally pull screencap
 let cap = await _CAPIFY(uri,capfile)
+console.log("capfile",capfile)
 
 // place it
-let capurl = await _UPCAP(capfile)
-console.log("capurl",capurl);
+// let capurl = await _UPCAP(capfile)
+// console.log("capurl",capurl);
 
 // gen tiny urik
 // let url = await _TINIFY(uri)
