@@ -52,7 +52,8 @@ const _SET_NEW_LOW=(nid)=>{
 
   var Q = { "id":nid }
 
-  const uri = "mongodb+srv://app:"+process.env.MONGOPSSWD+"@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  const uri = "mongodb+srv://app:"+process.env.MONGO_PSSWD+"@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  console.log("connecting to mongo w/ ",uri);
   MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
    const col = client.db("parking").collection("atl_parcel_parking");
    // perform actions on the collection object
@@ -74,7 +75,7 @@ const _GET_LOW=()=>{
 
   var Q = {"sent":{$eq:null}}
 
-  const uri = "mongodb+srv://app:"+process.env.MONGOPSSWD+"@cl00-uacod.mongodb.net/parking?retryWrites=true";
+  const uri = "mongodb+srv://app:"+process.env.MONGO_PSSWD+"@cl00-uacod.mongodb.net/parking?retryWrites=true";
   MONGO.connect(uri, { useNewUrlParser: true }, function(err, client) {
    const col = client.db("parking").collection("atl_parcel_parking");
    // perform actions on the collection object
@@ -92,7 +93,7 @@ const _GET_LOW=()=>{
 const _GETBIO = async(I)=>{
 
 console.log("fetching bio for ",I)
-   let bio = await _GET('https://cecmcgee.carto.com/api/v2/sql?',{params:{q:"SELECT bio_short FROM atl_tax_parcel_parking WHERE cartodb_id="+I}})
+   let bio = await _GET('https://cecmcgee.carto.com/api/v2/sql?',{params:{q:"SELECT bio_short FROM atl_tax_parcel_parking WHERE objectid="+I}})
   return new Promise((resolve,reject)=>{
 if(!bio){reject("no bio found at carto")}
    resolve(__.first(bio.data.rows).bio_short);
@@ -210,7 +211,7 @@ let cap = await _CAPIFY(uri,capfile)
 
 // gen tiny uri
 let url = await _TINIFY(uri)
-// console.log("uri",url);
+console.log("uri",url);
 
 let tweet = bio+" "+url
 console.log("tweeting: ",tweet);
@@ -221,8 +222,8 @@ console.log("tweeted",tweeted);
 //update carto set sent=true (or timestamp maybe)
 // let finalize = await _GET('https://cecmcgee.carto.com/api/v2/sql?',{params:{q:"update atl_tax_parcel_parking set sent="}})
 
-// let set_new_low=await _SET_NEW_LOW(low);
-	// console.log("updated sent status",set_new_low);
+let set_new_low=await _SET_NEW_LOW(low);
+	console.log("updated sent status",set_new_low);
 
 }
 
